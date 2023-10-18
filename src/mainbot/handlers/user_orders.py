@@ -54,7 +54,9 @@ async def order_room(message: Message, state: FSMContext) -> None:
     return
 
 
-@user_order_router.callback_query(F.data.startswith("Комната"))
+@user_order_router.callback_query(
+    F.data.startswith("Комната"),
+)
 async def order_room(callback_query: CallbackQuery, state: FSMContext) -> None:
     worker_id = callback_query.data.split(" ")[1]
     is_free = True if callback_query.data.split(" ")[2] == "свободна" else False
@@ -97,6 +99,7 @@ async def order_room(callback_query: CallbackQuery, state: FSMContext) -> None:
     time_channel_exist, count_channel_subscriber = await get_channel_information(
         channel_id=channel_id
     )
+    await callback_query.answer("Проверка очереди и получение информации о видео")
 
     video_seo = await get_video_seo(
         tags=video_tags, title=video_title, description=video_description
@@ -125,7 +128,6 @@ async def order_room(callback_query: CallbackQuery, state: FSMContext) -> None:
         await state.clear()
         return
 
-    await callback_query.answer("Проверка очереди и получение информации о видео")
     await callback_query.message.answer(
         await video_response_text(
             video_time=True
@@ -166,7 +168,7 @@ async def order_room(callback_query: CallbackQuery, state: FSMContext) -> None:
         reply_markup=await order_menu(video_id=video_id, user_id=user.id),
     )
     async with database.session_factory() as session:
-        user = await session.get(Worker, {"id": (await state.get_data())["user_id"]})
+        user = await session.get(User, {"id": (await state.get_data())["user_id"]})
         user.balance -= 100
         await session.commit()
 

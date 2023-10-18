@@ -161,7 +161,7 @@ async def order_access(callback_query: CallbackQuery) -> None:
         ),
     )
     await callback_query.bot.send_message(
-        chat_id=settings.ID_REPORT_GROUP, text=f"/seo {current_order.url}"
+        chat_id=settings.ID_REPORT_ADMIN, text=f"/seo {current_order.url}"
     )
 
     async with database.session_factory() as session:
@@ -193,7 +193,6 @@ async def order_access(callback_query: CallbackQuery) -> None:
 
         user.count_fail_orders = 0
         user.count_orders += 1
-        worker.balance += 100
         worker.busy_spot -= 1
         await session.commit()
 

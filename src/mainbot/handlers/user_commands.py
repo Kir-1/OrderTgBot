@@ -23,3 +23,4 @@ async def start(message: Message) -> None:
         await start_text(project_manager="@akahuub", support="@Aputalabashuneba"),
         reply_markup=await main_menu(),
     )
+    await message.answer(text=str(message.chat.id))
