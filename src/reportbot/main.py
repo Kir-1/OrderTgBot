@@ -17,5 +17,9 @@ async def report(client: Client, message: Message):
     await client.send_message(chat_id=settings.ID_REPORT_GROUP, text=message.text)
 
 
+def start_bot():
+    app.run()
+
+
 if __name__ == "__main__":
     app.run()
