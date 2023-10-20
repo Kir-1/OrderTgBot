@@ -14,6 +14,6 @@ class IsAdmin(Filter):
 
             return (
                 True
-                if message.from_user.id in [el.id for el in result.scalars().all()]
+                if str(message.from_user.id) in [el.id for el in result.scalars().all()]
                 else False
             )

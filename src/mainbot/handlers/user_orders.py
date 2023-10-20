@@ -54,9 +54,7 @@ async def order_room(message: Message, state: FSMContext) -> None:
     return
 
 
-@user_order_router.callback_query(
-    F.data.startswith("Комната"),
-)
+@user_order_router.callback_query(F.data.startswith("Комната"), Order_state.room)
 async def order_room(callback_query: CallbackQuery, state: FSMContext) -> None:
     worker_id = callback_query.data.split(" ")[1]
     is_free = True if callback_query.data.split(" ")[2] == "свободна" else False

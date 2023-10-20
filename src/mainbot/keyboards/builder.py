@@ -11,4 +11,5 @@ async def room_menu(workers: list[Worker]) -> InlineKeyboardMarkup:
             text=f"{worker.room_emoji}{worker.room_name}{worker.room_emoji} {worker.busy_spot}/{worker.all_spot} - {'свободна' if worker.busy_spot < worker.all_spot else 'занята'}",
             callback_data=f"Комната {worker.id} {'свободна' if worker.busy_spot < worker.all_spot else 'занята'}",
         )
+        builder.adjust(1, 1)
     return builder.as_markup()

@@ -206,8 +206,10 @@ async def worker_work(callback_query: CallbackQuery) -> None:
         worker.status = not worker.status
         await session.commit()
 
+    models = [worker]
+
     await callback_query.message.edit_reply_markup(
-        reply_markup=await worker_menu(model=worker)
+        reply_markup=await worker_menu(models=models)
     )
 
     await callback_query.answer()

@@ -13,7 +13,7 @@ worker_commands_router = Router()
 
 @worker_commands_router.message(F.text == "/menu", or_f(IsWorker(), IsAdmin()))
 async def admin(message: Message) -> None:
-    async with database.session_factory as session:
+    async with database.session_factory() as session:
         stmt = select(Worker).where(Worker.id == message.from_user.id)
         result: Result = await session.execute(stmt)
         workers = result.scalars().all()
@@ -22,7 +22,9 @@ async def admin(message: Message) -> None:
         result: Result = await session.execute(stmt)
         admins = result.scalars().all()
 
+    models = [el for el in workers] + [el for el in admins]
+
     await message.answer(
         "Меню администратора",
-        reply_markup=await worker_menu(model=workers[0] if not admins else admins[0]),
+        reply_markup=await worker_menu(models=models),
     )

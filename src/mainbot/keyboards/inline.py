@@ -96,17 +96,19 @@ async def order_check_seo_menu(video_id: str, user_id: int) -> InlineKeyboardMar
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 
-async def worker_menu(model: Union[Admin, Worker]) -> InlineKeyboardMarkup:
+async def worker_menu(models: list[Union[Admin, Worker]]) -> InlineKeyboardMarkup:
     keyboard = [
         [
             InlineKeyboardButton(
-                text=f"{'Работать' if not model.is_available else 'Не работать'}",
+                text=f"{'Работать' if not [model.status for model in models if isinstance(model, Worker)][0] else 'Не работать'}",
                 callback_data="Работа",
             ),
             InlineKeyboardButton(
                 text="Проверить баланс", callback_data="Баланс воркера"
             ),
-        ],
+        ]
+        if any([isinstance(model, Worker) for model in models])
+        else [],
         [
             InlineKeyboardButton(
                 text="Информация о пользователе",
@@ -114,7 +116,7 @@ async def worker_menu(model: Union[Admin, Worker]) -> InlineKeyboardMarkup:
             ),
             InlineKeyboardButton(text="Рассылка", callback_data="Рассылка"),
         ]
-        if isinstance(model, Admin)
+        if any([isinstance(model, Admin) for model in models])
         else [],
     ]
 

@@ -9,4 +9,6 @@ SEOHUB.sqlite3
 *.iml
 out
 gen
-
+src/seolog.txt
+src/autoseo_bot.session
+src/

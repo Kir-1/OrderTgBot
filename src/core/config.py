@@ -1,4 +1,3 @@
-from os import getenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pathlib import Path, WindowsPath
 
@@ -26,6 +25,10 @@ class Settings(BaseSettings):
     BOT_WEBHOOK_SECRET: str
     WEBHOOK_PATH: str
     BASE_WEBHOOK_URL: str
+
+    ID_AUTOSEO_ADMIN: int
+    AUTOSEO_API_ID: int
+    AUTOSEO_API_HASH: str
 
     @property
     def DATABASE_URL_SQLITE(self):
